@@ -1,15 +1,11 @@
 <?php
 
-interface SingletonInterface {
-    public static function getInstance(): self;
-    public function __clone();
-    public function __wakeup();
-}
+require_once 'SingletonInterface.php';
 
 class Singleton implements SingletonInterface {
 
     private static ?self $instance = null;
-    private string $name;
+    private string $name; // for the test example
 
     protected function __construct() {}
 
@@ -22,6 +18,9 @@ class Singleton implements SingletonInterface {
         return self::$instance;
     }
 
+    final public function __clone() {}
+    final public function __wakeup() {}
+
     public function getName(): string
     {
         return $this->name;
@@ -32,13 +31,4 @@ class Singleton implements SingletonInterface {
         $this->name = $name;
     }
 
-    final public function __clone() {}
-    final public function __wakeup() {}
-
 }
-
-$instance1 = Singleton::getInstance();
-$instance1->setName('Instance #1' . PHP_EOL);
-var_dump($instance1->getName());
-$instance2 = Singleton::getInstance();
-var_dump($instance2->getName());
